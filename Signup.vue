@@ -1,9 +1,47 @@
 <template>
- <div>signup</div>
+ <div>
+  NAME: <input type="text" v-model="name"/> <br/>
+  EMAIL: <input type="text" v-model="email"/> <br/>
+  PASSWORD: <input> type="text" v-model="password"/> <br/>
+  <button @click="signup">signup</button>
+  {{ error }}
+</div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
- name: 'Signup'
+ name: 'Signup',
+ data() {
+  return {
+   name: ' ',
+   email: '' ,
+   password: '',
+   
+   error: ' ',
+ }
+},
+methods: {
+ signup() {
+ let newUSer = {
+ name: this.name,
+ email: this.email,
+ password: this.password
 }
-</script> 
+axios.post('http://localhost:5000/signup', newUser)
+  .then(res => {
+   this.error = '';
+   this.$router.push('/login');
+}, err => {
+  console.log(err.response)
+ this.error = err.response.data.error
+ })
+ }
+}
+}
+</script>
+
+
+
+
   
